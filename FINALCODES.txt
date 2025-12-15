@@ -1,0 +1,314 @@
+import java.util.Scanner;
+import java.lang.*;
+
+public class LeakyBucket {
+
+    public static void main(String[] args) {
+
+        int i;
+        int a[] = new int[20];          // packet sizes
+        int buck_rem = 0;               // remaining bucket size
+        int buck_cap = 4;               // bucket capacity
+        int rate = 3;                   // leak rate
+        int sent, recv;
+
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Enter the number of packets:");
+        int n = in.nextInt();
+
+        System.out.println("Enter the packet sizes:");
+        for (i = 1; i <= n; i++) {
+            a[i] = in.nextInt();
+        }
+
+        System.out.println("\nClock\tPacket Size\tAccept\t\tSent\tRemaining");
+
+        for (i = 1; i <= n; i++) {
+
+            // Receiving packets
+            if (a[i] != 0) {
+                if (buck_rem + a[i] > buck_cap) {
+                    recv = -1; // packet dropped
+                } else {
+                    recv = a[i];
+                    buck_rem = buck_rem + a[i];
+                }
+            } else {
+                recv = 0;
+            }
+
+            // Sending packets
+            if (buck_rem != 0) {
+                if (buck_rem < rate) {
+                    sent = buck_rem;
+                    buck_rem = 0;
+                } else {
+                    sent = rate;
+                    buck_rem = buck_rem - rate;
+                }
+            } else {
+                sent = 0;
+            }
+
+            // Display status
+            if (recv == -1) {
+                System.out.println(i + "\t\t" + a[i] + "\t\tDropped\t\t" 
+                                   + sent + "\t" + buck_rem);
+            } else {
+                System.out.println(i + "\t\t" + a[i] + "\t\t" + recv + "\t\t" 
+                                   + sent + "\t" + buck_rem);
+            }
+        }
+
+        in.close();
+    }
+}
+
+
+LEAKYBUCKET####
+
+
+import java.io.*;
+import java.net.*;
+
+class P2PClient {
+
+    public static void main(String[] args) throws Exception {
+
+        Socket socket = new Socket("localhost", 5000);
+
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+        int a = 10;
+        int b = 20;
+
+        out.writeInt(a);
+        out.writeInt(b);
+
+        int result = in.readInt();
+        System.out.println("Addition Result: " + result);
+
+        System.out.println("\nReceived File Content:");
+        String line;
+
+        while (!(line = in.readUTF()).equals("END")) {
+            System.out.println(line);
+        }
+
+        socket.close();
+    }
+}
+
+
+import java.io.*;
+import java.net.*;
+
+class P2PServer {
+        ServerSocket server = new ServerSocket(5000);
+        System.out.println("Waiting for peer...");
+
+        // Receive numbers
+        int a = in.readInt();
+        int b = in.readInt();
+        int sum = a + b;
+
+        File file = new File("sample.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            out.writeUTF(line);
+        }
+
+        out.writeUTF("END");  // End of file marker
+
+        br.close();
+}
+
+#PEERTOPEERSERVER
+
+
+import java.io.*;
+import java.net.*;
+
+class RPCServer {
+
+    public static void main(String[] args) throws Exception {
+
+        ServerSocket serverSocket = new ServerSocket(6000);
+        System.out.println("RPC Server started...");
+
+        Socket socket = serverSocket.accept();
+        System.out.println("Client connected");
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(socket.getInputStream()));
+        PrintWriter out = new PrintWriter(
+                socket.getOutputStream(), true);
+
+        String request = in.readLine();
+        String[] parts = request.split(" ");
+
+        String operation = parts[0];
+        int a = Integer.parseInt(parts[1]);
+        int b = Integer.parseInt(parts[2]);
+
+        try {
+            int result;
+
+            switch (operation) {
+                case "ADD":
+                    result = a + b;
+                    break;
+                case "SUB":
+                    result = a - b;
+                    break;
+                case "MUL":
+                    result = a * b;
+                    break;
+                case "DIV":
+                    if (b == 0)
+                        throw new ArithmeticException("Division by zero");
+                    result = a / b;
+                    break;
+                default:
+                    out.println("ERROR Invalid_operation");
+                    socket.close();
+                    return;
+            }
+
+            out.println("SUCCESS " + result);
+
+        } catch (Exception e) {
+            out.println("ERROR " + e.getMessage());
+        }
+
+        socket.close();
+        serverSocket.close();
+    }
+}
+
+#RPCSERVER
+
+
+
+import java.io.*;
+import java.net.*;
+
+class RPCClient {
+
+    public static void main(String[] args) throws Exception {
+
+        Socket socket = new Socket("localhost", 6000);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(socket.getInputStream()));
+        PrintWriter out = new PrintWriter(
+                socket.getOutputStream(), true);
+
+        // RPC Call
+        out.println("ADD 20 10");
+
+        // RPC Reply
+        String response = in.readLine();
+        System.out.println("Server Response: " + response);
+
+        socket.close();
+    }
+}
+
+
+#RPCCLIENT
+
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Random;
+public class RSA
+{
+private BigInteger p,q,N,phi,e,d;
+private int bitlength=1024;
+private Random r;
+public RSA()
+{
+r=new Random();
+p=BigInteger.probablePrime(bitlength,r);
+q=BigInteger.probablePrime(bitlength,r);
+System.out.println("Prime number p is"+p);
+System.out.println("prime number q is"+q);
+N=p.multiply(q);
+phi=p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE
+));
+e=BigInteger.probablePrime(bitlength/2,r);
+while(phi.gcd(e).compareTo(BigInteger.ONE)>0&&e.compareTo(p
+hi)<0)
+{
+e.add(BigInteger.ONE);
+}
+System.out.println("Public key is"+e);
+d=e.modInverse(phi);
+System.out.println("Private key is"+d);
+}
+public RSA(BigInteger e,BigInteger d,BigInteger N)
+{
+this.e=e;
+
+this.d=d;
+this.N=N;
+}
+public static void main(String[] args)throws IOException
+{
+RSA rsa=new RSA();
+DataInputStream in=new DataInputStream(System.in);
+String testString;
+System.out.println("Enter the plain text:");
+testString=in.readLine();
+System.out.println("Encrypting string:"+testString);
+System.out.println("string in
+bytes:"+bytesToString(testString.getBytes()));
+byte[] encrypted=rsa.encrypt(testString.getBytes());
+byte[] decrypted=rsa.decrypt(encrypted);
+        socket.close();
+        server.close();
+    }
+System.out.println("Dcrypting Bytes:"+bytesToString(decrypted));
+System.out.println("Dcrypted string:"+new String(decrypted));
+}
+private static String bytesToString(byte[] encrypted)
+{
+String test=" ";
+for(byte b:encrypted)
+{
+test+=Byte.toString(b);
+}
+        out.writeInt(sum);
+
+        // Send file content
+
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+return test;
+}
+public byte[]encrypt(byte[]message)
+
+        Socket socket = server.accept();
+        System.out.println("Peer connected");
+{
+return(new BigInteger(message)).modPow(e,N).toByteArray();
+}
+public byte[]decrypt(byte[]message)
+{
+return(new BigInteger(message)).modPow(d,N).toByteArray();
+
+    public static void main(String[] args) throws Exception {
+
+}
+}
+
+##RSAAA
+
+
+
