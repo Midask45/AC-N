@@ -1,0 +1,538 @@
+#PROGRAM 1
+
+import java.util.*;
+
+public class P1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // a) Roots of Quadratic Equation
+        System.out.println("Enter coefficients a, b, c of quadratic equation:");
+        double a = sc.nextDouble();
+        double b = sc.nextDouble();
+        double c = sc.nextDouble();
+
+        double d = b * b - 4 * a * c;
+
+        if (d >= 0) {
+            double r1 = (-b + Math.sqrt(d)) / (2 * a);
+            double r2 = (-b - Math.sqrt(d)) / (2 * a);
+            System.out.println("Roots are: " + r1 + " , " + r2);
+        } else {
+            System.out.println("Roots are imaginary");
+        }
+
+        // b) Multiply two arrays
+        System.out.println("\nEnter size of arrays:");
+        int n = sc.nextInt();
+
+        int[] x = new int[n];
+        int[] y = new int[n];
+        int[] z = new int[n];
+
+        System.out.println("Enter elements of first array:");
+        for (int i = 0; i < n; i++)
+            x[i] = sc.nextInt();
+
+        System.out.println("Enter elements of second array:");
+        for (int i = 0; i < n; i++)
+            y[i] = sc.nextInt();
+
+        for (int i = 0; i < n; i++)
+            z[i] = x[i] * y[i];
+
+        System.out.println("Product of arrays: " + Arrays.toString(z));
+
+        // c) Bubble Sort Ascending & Descending
+        System.out.println("\nEnter number of elements to sort:");
+        int m = sc.nextInt();
+
+        int[] arr = new int[m];
+        System.out.println("Enter elements:");
+        for (int i = 0; i < m; i++)
+            arr[i] = sc.nextInt();
+
+        // Ascending order
+        int[] asc = arr.clone();
+        for (int i = 0; i < asc.length - 1; i++) {
+            for (int j = 0; j < asc.length - 1 - i; j++) {
+                if (asc[j] > asc[j + 1]) {
+                    int temp = asc[j];
+                    asc[j] = asc[j + 1];
+                    asc[j + 1] = temp;
+                }
+            }
+        }
+        System.out.println("Sorted Ascending: " + Arrays.toString(asc));
+
+        // Descending order
+        int[] desc = arr.clone();
+        for (int i = 0; i < desc.length - 1; i++) {
+            for (int j = 0; j < desc.length - 1 - i; j++) {
+                if (desc[j] < desc[j + 1]) {
+                    int temp = desc[j];
+                    desc[j] = desc[j + 1];
+                    desc[j + 1] = temp;
+                }
+            }
+        }
+        System.out.println("Sorted Descending: " + Arrays.toString(desc));
+
+        sc.close();
+    }
+}
+
+
+
+#PROGRAM 2
+
+// 2. Write a java program to create an Employee database which stores following information about the Employee: Name, Emp_id, department, age, and designation. Perform the following operations:
+// a. Read and display the details of at least five Employees.
+// b. Calculate and display the sum of salary of all the employees of “sales” department.
+// c. Retrieve the details of “highest paid manager” in the purchase department.
+
+import java.util.*;
+public class E{
+    String n,d,g,i; int a; double s;
+    void get(Scanner c){
+        n=c.nextLine(); i=c.nextLine(); d=c.nextLine(); g=c.nextLine();
+        a=c.nextInt(); s=c.nextDouble(); c.nextLine();
+    }
+    void put(){
+        System.out.printf("%s\t%s\t%s\t%d\t%s\t%.2f\n",n,i,d,a,g,s);
+    }
+    public static void main(String[] args){
+        Scanner c=new Scanner(System.in);
+        E[] e=new E[c.nextInt()];c.nextLine();
+        for(int i=0;i<e.length;i++){
+            e[i]=new E();
+            System.out.println("Enter information about Employee "+(i+1)+": ");
+            e[i].get(c);
+        }
+        double t=0,m=0; 
+        E h=null;
+        for(E x:e){
+            x.put();
+            if(x.d.equalsIgnoreCase("sales"))t+=x.s;
+            if(x.d.equalsIgnoreCase("purchase")&&x.g.equalsIgnoreCase("manager")&&x.s>m){
+                m=x.s;
+                h=x;
+            }
+        }
+        System.out.printf("\nSales Total: %.2f\nTop Manager: %s",t,h!=null?"\n":"None\n");
+        if(h!=null)h.put();
+    }
+}
+
+
+#PROGRAM 3 COMPEX NOS
+
+
+import java.util.Scanner;
+
+class Complex {
+    private double r, i;
+
+    // Constructor
+    Complex(double r, double i) {
+        this.r = r;
+        this.i = i;
+    }
+
+    // Addition
+    Complex add(Complex c) {
+        return new Complex(this.r + c.r, this.i + c.i);
+    }
+
+    // Subtraction
+    Complex sub(Complex c) {
+        return new Complex(this.r - c.r, this.i - c.i);
+    }
+
+    // Comparison
+    boolean comp(Complex c) {
+        return (this.r == c.r && this.i == c.i);
+    }
+
+    // Display
+    void display() {
+        System.out.println(r + " + " + i + "i");
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input first complex number
+        System.out.print("Enter real and imaginary part of first complex number: ");
+        double r1 = sc.nextDouble();
+        double i1 = sc.nextDouble();
+
+        // Input second complex number
+        System.out.print("Enter real and imaginary part of second complex number: ");
+        double r2 = sc.nextDouble();
+        double i2 = sc.nextDouble();
+
+        Complex n1 = new Complex(r1, i1);
+        Complex n2 = new Complex(r2, i2);
+
+        Complex sum = n1.add(n2);
+        Complex diff = n1.sub(n2);
+
+        System.out.print("Sum = ");
+        sum.display();
+
+        System.out.print("Difference = ");
+        diff.display();
+
+        System.out.println("Both complex numbers are equal: " + n1.comp(n2));
+
+        sc.close();
+    }
+}
+
+
+#PROGRAM 4 base class
+
+
+// Write a java program to define a base class called person which stores information about a person such as name, age, gender. 
+// Derive two new classes employee and student and extend the base class methods in derived class to read and display the details that are specific to student and employee.
+// Display the details of at least five students and five employees.
+
+import java.util.*;
+class Person{
+    String n,g; int a;
+    Person(String n, String g, int a){
+        this.n=n; this.g=g; this.a=a;
+    }
+    void display(){
+        System.out.println("\nName: "+n+"\nGender: "+g+"\nAge: "+a);
+    }
+}
+class Employee extends Person{
+    String c; double s;
+    Employee(String n, String g, int a, String c, double s){
+        super(n,g,a);
+        this.c=c; this.s=s;
+    }
+    void display(){
+        super.display();
+        System.out.println("Company: "+c+"\nSalary: "+s);
+    }
+}
+class Student extends Person{
+    String sc; double gr;
+    Student(String n, String g, int a,String sc, double gr){
+        super(n,g,a);
+        this.sc=sc; this.gr=gr;
+    }
+    void display(){
+        super.display();
+        System.out.println("School: "+sc+"\nGrade: "+gr);
+    }
+}
+public class Main{
+    public static void main(String[] args){
+        Scanner sca=new Scanner(System.in);
+        Employee[] e=new Employee[5];
+        Student[] st=new Student[5];
+        System.out.println("\nEnter details of 5 employees: ");
+        for(int i=0;i<5;i++){
+            System.out.print("Name: ");
+            String n = sca.nextLine();
+            System.out.print("Age: ");
+            int a = sca.nextInt();
+            System.out.print("Gender: ");
+            String g = sca.next();
+            System.out.print("Company: ");
+            String c = sca.next();
+            System.out.print("Salary: ");
+            double s = sca.nextDouble();
+            sca.nextLine();
+            e[i]=new Employee(n,g,a,c,s);
+        }
+        System.out.println("\nEnter details of 5 students: ");
+        for(int i=0;i<5;i++){
+            System.out.print("Name: ");
+            String n = sca.nextLine();
+            System.out.print("Age: ");
+            int a = sca.nextInt();
+            System.out.print("Gender: ");
+            String g = sca.next();
+            System.out.print("School: ");
+            String sc = sca.next();
+            System.out.print("Grade: ");
+            double gr = sca.nextDouble();
+            sca.nextLine();
+            st[i]=new Student(n,g,a,sc,gr);
+        }
+        System.out.println("\nEmployee Details:");
+        for(Employee x:e){
+            x.display();
+            System.out.println();
+        }
+        System.out.println("\nStudent Details:");
+        for(Student y:st){
+            y.display();
+            System.out.println();
+        }
+    }
+}
+
+
+
+#PROGRAM 5 STRCMP USTRCMPP
+
+
+
+import java.util.Scanner;
+
+class SC {
+
+    // Compare full strings
+    static boolean usrstrcmp(String s1, String s2) {
+        if (s1.length() != s2.length())
+            return false;
+
+        for (int i = 0; i < s1.length(); i++)
+            if (s1.charAt(i) != s2.charAt(i))
+                return false;
+
+        return true;
+    }
+
+    // Compare first n characters
+    static boolean usrstrcmp(String s1, String s2, int n) {
+        int len = Math.min(n, Math.min(s1.length(), s2.length()));
+
+        for (int i = 0; i < len; i++)
+            if (s1.charAt(i) != s2.charAt(i))
+                return false;
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter first string: ");
+        String s1 = sc.nextLine();
+
+        System.out.print("Enter second string: ");
+        String s2 = sc.nextLine();
+
+        System.out.print("Enter number of characters to compare: ");
+        int n = sc.nextInt();
+
+        System.out.println("\nFull string comparison result: "
+                + usrstrcmp(s1, s2));
+
+        System.out.println("First " + n + " characters comparison result: "
+                + usrstrcmp(s1, s2, n));
+
+        sc.close();
+    }
+}
+
+#PROGRAM 6 
+
+import java.util.Scanner;
+
+// Base abstract class
+abstract class Bank {
+    String name;
+    int accNo;
+    double balance;
+
+    // Read customer details
+    void read(Scanner sc) {
+        System.out.print("Enter Name: ");
+        name = sc.nextLine();
+
+        System.out.print("Enter Account Number: ");
+        accNo = sc.nextInt();
+
+        System.out.print("Enter Balance: ");
+        balance = sc.nextDouble();
+        sc.nextLine(); // clear buffer
+    }
+
+    // Display details
+    void display() {
+        System.out.printf(
+            "Name: %s | Acc No: %d | Balance: %.2f | Interest: %.2f\n",
+            name, accNo, balance, calculateInterest()
+        );
+    }
+
+    // Abstract method
+    abstract double calculateInterest();
+}
+
+// Derived class: City Bank
+class CityBank extends Bank {
+    double calculateInterest() {
+        return balance * 0.06; // 6%
+    }
+}
+
+// Derived class: SBI Bank
+class SBIBank extends Bank {
+    double calculateInterest() {
+        return balance * 0.07; // 7%
+    }
+}
+
+// Derived class: Canara Bank
+class CanaraBank extends Bank {
+    double calculateInterest() {
+        return balance * 0.065; // 6.5%
+    }
+}
+
+// Main class
+public class P6 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Bank[] banks = new Bank[3];
+        banks[0] = new CityBank();
+        banks[1] = new SBIBank();
+        banks[2] = new CanaraBank();
+
+        String[] bankNames = {"City Bank", "SBI Bank", "Canara Bank"};
+
+        for (int i = 0; i < banks.length; i++) {
+            System.out.println("\nEnter details for " + bankNames[i] + " customer:");
+            banks[i].read(sc);
+        }
+
+        System.out.println("\n--- Interest Details of All Account Holders ---");
+        for (Bank b : banks) {
+            b.display();
+        }
+
+        sc.close();
+    }
+}
+
+#PROGRAM 7 PWRODUCER CONSUMER
+
+
+// Write a multi-threaded java program to illustrate producer consumer problem.
+
+class P7{
+    int[] buf=new int[5];
+    int in=0, out=0, count=0;
+    synchronized void put(int n) throws InterruptedException{
+        while(buf.length==count) wait();
+        buf[in]=n;
+        in=(in+1)%buf.length;
+        count++;
+        System.out.println("\nProduced: "+n);
+        notifyAll();
+    }
+    synchronized int get() throws InterruptedException{
+        while(count==0) wait();
+        int item=buf[out];
+        out=(out+1)%buf.length;
+        count--;
+        System.out.println("\nConsumed: "+item);
+        notifyAll();
+        return item;
+    }
+    public static void main(String[] args){
+        P7 pc=new P7();
+        new Thread(()->{
+            try{
+                for(int i=1;i<=10;i++){
+                    pc.put(i);
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException ignored) {}
+        }).start();
+        new Thread(()->{
+            try{
+                while(true){
+                    pc.get();
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ignored) {}
+        }).start();
+    }
+}
+
+
+#PROGRAM 8 DIVISION
+
+// Write a java program to read two positive integers and perform the division operation on them and display the result if a user enters a positive integer and non-zero denominator. 
+// Else, If the input is negative or the denominator is zero, generate negative number input and divide by zero exception to handle the scenario.
+
+import java.util.*;
+class P8{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        try{
+            System.out.println("Enter two numbers: ");
+            int n=sc.nextInt(); int d=sc.nextInt();
+            if(n<0||d<0){
+                throw new IllegalArgumentException("Negative numbers not allowed.");
+            }
+            System.out.println("Answer: "+(n/d));
+        } catch (ArithmeticException e){
+            System.out.println("Cannot divide by zero.");
+        } catch (IllegalArgumentException e){
+            System.out.println("Error: "+e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+
+
+PROGRAM 9 UNIT CONVERSION 
+
+import java.util.Scanner;
+
+interface Compute {
+    double convert(double v);
+}
+
+class GB2B implements Compute {
+    public double convert(double gb) {
+        return gb * 1073741824; // 1 GB = 2^30 bytes
+    }
+}
+
+class E2R implements Compute {
+    public double convert(double euro) {
+        return euro * 90.85; // Euro to Rupees
+    }
+}
+
+public class P9 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Compute gbConverter = new GB2B();
+        Compute euroConverter = new E2R();
+
+        System.out.print("Enter value in Giga Bytes: ");
+        double gb = sc.nextDouble();
+
+        System.out.print("Enter value in Euros: ");
+        double euro = sc.nextDouble();
+
+        System.out.println("\nConversions:");
+        System.out.println(gb + " GB = " + gbConverter.convert(gb) + " Bytes");
+        System.out.println(euro + " Euros = " + euroConverter.convert(euro) + " Rupees");
+
+        sc.close();
+    }
+}
+
+
+# PROGRAM 10 
+
+
+
+
